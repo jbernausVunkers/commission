@@ -21,7 +21,7 @@
                     name="button_edit_agents"
                     title="Edit agents"
                     icon="fa-users"
-                    attrs="{'invisible': [('commission_free', '=', True)]}"
+                    invisible="commission_free"
                     type="object"
                 />
             </button>
@@ -34,15 +34,13 @@
         <field name="inherit_id" ref="commission.commission_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='section_ids']/.." position="attributes">
-                <attribute
-                    name="attrs"
-                >{'invisible': [('commission_type', '=', 'product')]}</attribute>
+                <attribute name="invisible">commission_type == 'product'</attribute>
             </xpath>
             <sheet position="inside">
                 <group
                     string="Rules"
                     name="rules_group"
-                    attrs="{'invisible': [('commission_type', '!=', 'product')]}"
+                    invisible="commission_type != 'product'"
                 >
                     <field
                         name="item_ids"
@@ -108,23 +106,20 @@
                             <field name="based_on" invisible="1" />
                             <field
                                 name="categ_id"
-                                attrs="{
-                                      'invisible':[('applied_on', '!=', '2_product_category')],
-                                      'required':[('applied_on', '=', '2_product_category')]}"
+                                invisible="applied_on != '2_product_category'"
+                                required="applied_on == '2_product_category'"
                                 options="{'no_create':1}"
                             />
                             <field
                                 name="product_tmpl_id"
-                                attrs="{
-                                        'invisible':[('applied_on', '!=', '1_product')],
-                                        'required':[('applied_on', '=', '1_product')]}"
+                                invisible="applied_on != '1_product'"
+                                required="applied_on == '1_product'"
                                 options="{'no_create':1}"
                             />
                             <field
                                 name="product_id"
-                                attrs="{
-                                        'invisible':[('applied_on', '!=', '0_product_variant')],
-                                        'required':[('applied_on', '=', '0_product_variant')]}"
+                                invisible="applied_on != '0_product_variant'"
+                                required="applied_on == '0_product_variant'"
                                 options="{'no_create':1}"
                             />
                         </group>
@@ -144,19 +139,17 @@
                         <group name="commission_rule_base">
                             <field
                                 name="fixed_amount"
-                                attrs="{'invisible':[('commission_type', '!=', 'fixed')]}"
+                                invisible="commission_type != 'fixed'"
                             />
                             <label
                                 for="percent_amount"
-                                attrs="{'invisible':[('commission_type', '!=', 'percentage')]}"
+                                invisible="commission_type != 'percentage'"
                             />
-                            <div
-                                attrs="{'invisible':[('commission_type', '!=', 'percentage')]}"
-                            >
+                            <div invisible="commission_type != 'percentage'">
                                 <field
                                     name="percent_amount"
                                     class="oe_inline"
-                                    attrs="{'invisible':[('commission_type', '!=', 'percentage')]}"
+                                    invisible="commission_type != 'percentage'"
                                 />
                                 %%
                             </div>
